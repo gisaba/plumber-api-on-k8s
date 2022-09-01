@@ -11,7 +11,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
 # Instead, we'll use the precompiled binaries kindly provided by RStudio
 # Package versions pinned to 2020-10-01
 ENV CRAN_REPO https://packagemanager.rstudio.com/all/__linux__/focal/338
-RUN Rscript -e 'install.packages(c("plumber", "promises", "future", "jose", "openssl"), repos = c("CRAN" = Sys.getenv("CRAN_REPO")))'
+RUN Rscript -e 'install.packages(c("plumber", "promises", "future", "jose", "openssl", "dplyr"), repos = c("CRAN" = Sys.getenv("CRAN_REPO")))'
 
 # Create a non-root plumber user to run the API, along with a new home directory
 RUN groupadd -r plumber && useradd --no-log-init -r -g plumber plumber

@@ -2,6 +2,15 @@ alive <<- TRUE
 key <- "$jv4)7N9MRgjC5f6gDSIaSatGE%fkBGVE^&YuAb^"
 session_key_ext = "123456"
 
+end_point_no_auth <- function(end_point){
+  ris <- case_when(end_point =="/login"  ~ TRUE ,
+                   end_point =="/health" ~ TRUE,
+                   end_point =="/__docs__/" ~ TRUE,
+                   end_point =="/openapi.json" ~ TRUE,
+                   TRUE ~ FALSE)
+  return(ris)
+}
+
 get_hostname <- function(){
   return(as.character(Sys.info()["nodename"]))
 }
@@ -14,8 +23,7 @@ check_jwt <- function(pjwt) {
 
 #* @filter checkAuth
 function(req, res){
-  # need a function to get out all path from filter
-  if ((req$PATH_INFO!="/login")&(req$PATH_INFO!="/health")&(req$PATH_INFO!="/__docs__/")&(req$PATH_INFO!="/openapi.json"))
+  if (!end_point_no_auth(req$PATH_INFO))
   {
 
     CHECK <- FALSE
