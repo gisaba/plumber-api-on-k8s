@@ -12,19 +12,10 @@ check_jwt <- function(pjwt) {
   } else {return(FALSE)}
 }
 
-#* @filter cors
-cors <- function(res) {
-  res$setHeader("Access-Control-Allow-Origin", "*")
-  plumber::forward()
-}
-
 #* @filter checkAuth
 function(req, res){
   # need a function to get out all path from filter
-  if ((req$PATH_INFO!="/login")
-      &(req$PATH_INFO!="/health")
-      &(req$PATH_INFO!="/__docs__/")
-      &(req$PATH_INFO!="/openapi.json"))
+  if ((req$PATH_INFO!="/login")&(req$PATH_INFO!="/health")&(req$PATH_INFO!="/__docs__/")&(req$PATH_INFO!="/openapi.json"))
   {
 
     CHECK <- FALSE
@@ -44,6 +35,12 @@ function(req, res){
     }
   }
   else {plumber::forward()}
+}
+
+#* @filter cors
+cors <- function(res) {
+  res$setHeader("Access-Control-Allow-Origin", "*")
+  plumber::forward()
 }
 
 #* Get JWT token
