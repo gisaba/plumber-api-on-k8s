@@ -1,0 +1,78 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: plumber-on-k8s-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/health"
+        backend:
+          service:
+            name: plumber-on-k8s-service
+            port:
+              number: 8000
+      - pathType: Prefix
+        path: "/parity"
+        backend:
+          service:
+             name:  plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/wait"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/fail"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/quit"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/iris"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/login"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/plot"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/__docs__/"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000
+      - pathType: Prefix
+        path: "/openapi.json"
+        backend:
+          service:
+             name: plumber-on-k8s-service
+             port:
+              number: 8000

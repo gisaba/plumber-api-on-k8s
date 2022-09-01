@@ -1,0 +1,16 @@
+library(plumber)
+library(promises)
+library(future)
+library(openssl)
+library(jose)
+#future::plan("multisession")
+
+#pr  <- Plumber$new()
+#first  <- Plumber$new("./api/plumber.R")
+#second <- Plumber$new("./api/utility.R")
+#pr$mount("/api", first)
+#pr$mount("/api/utility", second)
+#pr$run(port=8000)
+
+pr("plumber.R") %>% pr_run(host='0.0.0.0', port = 8000)
+#pr("debug.R") %>% pr_run(host='0.0.0.0', port = 8001)
