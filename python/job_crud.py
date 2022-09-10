@@ -6,17 +6,15 @@ from time import sleep
 import yaml
 from kubernetes import client, config
 
-#JOB_NAME = "pi"
-
-def create_job_object(JOB_NAME,JOB_IMAGE):
+def create_job_object(JOB_NAME,JOB_IMAGE,COMMAND):
     # Configureate Pod template container
     container = client.V1Container(
         name=JOB_NAME,
         image=JOB_IMAGE,
         #command=["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"]
         #command=["sh", "-c", "while true; do echo hello; sleep 10;done"]
-        command=["sh", "-c", "echo hello; sleep 10;"]
-        #command=JOB_CMD]
+        #["sh", "-c", "echo hello; sleep 10;"]
+        command=COMMAND
         )
     # Create and configure a spec section
     template = client.V1PodTemplateSpec(
@@ -25,6 +23,7 @@ def create_job_object(JOB_NAME,JOB_IMAGE):
     # Create the specification of deployment
     spec = client.V1JobSpec(
         completions= 1,
+        
         template=template,
         backoff_limit=4)
     # Instantiate the job object
@@ -46,16 +45,16 @@ def create_job(api_instance, job):
     return api_response
 
 
-def get_job_status(api_instance):
+def get_job_status(api_instance, JOB_NAME):
     
     api_response = api_instance.read_namespaced_job_status(
             name=JOB_NAME,
             namespace="default")
     return api_response  
 
-def update_job(api_instance, job):
+def update_job(api_instance, job, JOB_NAME, JOB_IMAGE):
     # Update container image
-    job.spec.template.spec.containers[0].image = "perl"
+    job.spec.template.spec.containers[0].image = JOB_IMAGE
     api_response = api_instance.patch_namespaced_job(
         name=JOB_NAME,
         namespace="default",
@@ -63,7 +62,7 @@ def update_job(api_instance, job):
     #print("Job updated. status='%s'" % str(api_response.status))
     return api_response
 
-def delete_job(api_instance):
+def delete_job(api_instance,JOB_NAME):
     api_response = api_instance.delete_namespaced_job(
         name=JOB_NAME,
         namespace="default",
