@@ -69,17 +69,17 @@ login <- function(username="",password="") {
 }
 
 #* Determine if an integer is odd or even
-#* @serializer text
+#* @serializer unboxedJSON
 #* @param int Integer to test for parity
 #* @get /parity
 function(int,req, res) {
   future({
-    if (as.integer(int) %% 2 == 0) "even" else "odd"
+    if (as.integer(int) %% 2 == 0) list(parity="even") else list(parity = "odd")
   })
 }
 
 #* Wait 5 seconds and then return the current time
-#* @serializer json
+#* @serializer unboxedJSON
 #* @get /wait
 function() {
   future({
@@ -105,11 +105,11 @@ function() {
 }
 
 #* Health check. Returns "OK".
-#* @serializer text
+#* @serializer unboxedJSON
 #* @get /health
 function(req, res) {
   future({
-    if (!alive) stop() else paste0("OK-",get_hostname())
+    if (!alive) stop() else list(result="OK",hostname=get_hostname(),time = Sys.time())
   })
 }
 

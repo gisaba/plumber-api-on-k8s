@@ -6,20 +6,25 @@ from time import sleep
 import yaml
 from kubernetes import client, config
 
-JOB_NAME = "pi"
+#JOB_NAME = "pi"
 
-def create_job_object():
+def create_job_object(JOB_NAME,JOB_IMAGE):
     # Configureate Pod template container
     container = client.V1Container(
-        name="pi",
-        image="perl",
-        command=["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"])
+        name=JOB_NAME,
+        image=JOB_IMAGE,
+        #command=["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+        #command=["sh", "-c", "while true; do echo hello; sleep 10;done"]
+        command=["sh", "-c", "echo hello; sleep 10;"]
+        #command=JOB_CMD]
+        )
     # Create and configure a spec section
     template = client.V1PodTemplateSpec(
-        metadata=client.V1ObjectMeta(labels={"app": "pi"}),
+        metadata=client.V1ObjectMeta(labels={"app": JOB_NAME}),
         spec=client.V1PodSpec(restart_policy="Never", containers=[container]))
     # Create the specification of deployment
     spec = client.V1JobSpec(
+        completions= 1,
         template=template,
         backoff_limit=4)
     # Instantiate the job object

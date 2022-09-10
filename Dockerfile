@@ -24,8 +24,9 @@ RUN mkdir /home/plumber/data
 ########################################################
 ENV RETICULATE_MINICONDA_PATH /home/plumber/miniconda
 RUN R -q -e 'reticulate::install_miniconda()'
-RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.10.0", "numpy"))'
-# RUN R -q -e 'reticulate::conda_list()'
+#RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.9.0", "numpy","yaml"))'
+RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.8.13", "numpy","yaml"))'
+#RUN R -q -e 'reticulate::conda_list()'
 RUN R -q -e 'reticulate::conda_install(envname = "r-k8s", packages = "kubernetes", pip = TRUE)'
 
 ## Modify Rprofile
