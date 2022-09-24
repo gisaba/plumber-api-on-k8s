@@ -1,4 +1,5 @@
 alive <<- TRUE
+auth <<- TRUE
 key <- "$jv4)7N9MRgjC5f6gDSIaSatGE%fkBGVE^&YuAb^"
 session_key_ext = "123456"
 
@@ -23,7 +24,8 @@ check_jwt <- function(pjwt) {
 
 #* @filter checkAuth
 function(req, res){
-  if (!end_point_no_auth(req$PATH_INFO))
+  auth <- !end_point_no_auth(req$PATH_INFO)
+  if (auth)
   {
 
     CHECK <- FALSE

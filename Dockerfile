@@ -22,21 +22,21 @@ ADD entrypoint.R /home/plumber/entrypoint.R
 RUN mkdir /home/plumber/data
 
 ########################################################
-ENV RETICULATE_MINICONDA_PATH /home/plumber/miniconda
-RUN R -q -e 'reticulate::install_miniconda()'
-#RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.9.0", "numpy","yaml"))'
-RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.8.13", "numpy","yaml"))'
-#RUN R -q -e 'reticulate::conda_list()'
-RUN R -q -e 'reticulate::conda_install(envname = "r-k8s", packages = "kubernetes", pip = TRUE)'
+#ENV RETICULATE_MINICONDA_PATH /home/plumber/miniconda
+#RUN R -q -e 'reticulate::install_miniconda()'
+##RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.9.0", "numpy","yaml"))'
+#RUN R -q -e 'reticulate::conda_create(envname = "r-k8s", packages = c("python=3.8.13", "numpy","yaml"))'
+##RUN R -q -e 'reticulate::conda_list()'
+#RUN R -q -e 'reticulate::conda_install(envname = "r-k8s", packages = "kubernetes", pip = TRUE)'
 
 ## Modify Rprofile
-RUN R -e 'write("reticulate::use_condaenv(\"r-k8s\", required = TRUE)",file=file.path(R.home(),"etc","Rprofile.site"),append=TRUE)'
-RUN R -e 'write("reticulate::import(\"kubernetes\")",file=file.path(R.home(),"etc","Rprofile.site"),append=TRUE)'
+#RUN R -e 'write("reticulate::use_condaenv(\"r-k8s\", required = TRUE)",file=file.path(R.home(),"etc","Rprofile.site"),append=TRUE)'
+#RUN R -e 'write("reticulate::import(\"kubernetes\")",file=file.path(R.home(),"etc","Rprofile.site"),append=TRUE)'
 
-ADD k8sAPI.R /home/plumber/k8sAPI.R
+#ADD k8sAPI.R /home/plumber/k8sAPI.R
 
-RUN mkdir /home/plumber/python
-COPY ./python/ /home/plumber/python
+#RUN mkdir /home/plumber/python
+#COPY ./python/ /home/plumber/python
 ########################################################
 
 EXPOSE 8000
