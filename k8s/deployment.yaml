@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: plumber-on-k8s-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: plumber-on-k8s
@@ -25,20 +25,32 @@ spec:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          failureThreshold: 3
+          successThreshold: 1 # Must be 1 for liveness and startup Probes.
         readinessProbe:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          failureThreshold: 10
+          periodSeconds: 30
+          successThreshold: 1 # Must be 1 for liveness and startup Probes.
         resources:
           limits:
-            memory: 500Mi
+            cpu: 600m
+            memory: 512Mi
           requests:
-            cpu: 200m
-            memory: 200Mi
+            cpu: 300m
+            memory: 256Mi
         volumeMounts:
         - name: data
           mountPath: /home/plumber/data

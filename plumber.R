@@ -58,7 +58,7 @@ cors <- function(res) {
 login <- function(username="",password="") {
 
   # Your login logic here
-  if(username=="giova" && password=="1234") {
+  if(username=="giovanni" && password=="1234") {
     # Create a JSON Web Token
     expiratio_token <- as.numeric(Sys.time()) + 3600
     claim <- jwt_claim(username = username, session_key = session_key_ext,exp = expiratio_token)
@@ -126,6 +126,8 @@ function() {
 #* @serializer png
 #* @get /plot
 function() {
-  rand <- rnorm(100)
-  hist(rand)
+  future({
+    rand <- rnorm(100)
+    hist(rand)
+  })
 }
