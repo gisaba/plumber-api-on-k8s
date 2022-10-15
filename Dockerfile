@@ -19,6 +19,10 @@ RUN groupadd -r plumber && useradd --no-log-init -r -g plumber plumber
 ADD plumber.R /home/plumber/plumber.R
 ADD entrypoint.R /home/plumber/entrypoint.R
 
+# Versione single-threaded
+ADD plumberSingleT.R /home/plumber/plumberSingleT.R
+ADD entrypointSingleT.R /home/plumber/entrypointSingleT.R
+
 RUN mkdir /home/plumber/data
 
 ########################################################
@@ -44,3 +48,4 @@ EXPOSE 8000
 WORKDIR /home/plumber
 USER plumber
 CMD Rscript entrypoint.R
+#CMD Rscript entrypointSingleT.R
